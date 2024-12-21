@@ -24,7 +24,7 @@ func main() {
 
 	// Register the routes for users and books
 	apiRouter := r.PathPrefix("/api/v1").Subrouter() // Subrouter for versioning
-	routes.RegisterBookRoutes(apiRouter.PathPrefix("/books").Subrouter())
+	routes.RegisterBookRoutes(apiRouter.PathPrefix("/book").Subrouter())
 
 	// Initialize the HTTP server with the router
 	srv := &http.Server{

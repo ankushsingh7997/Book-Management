@@ -41,8 +41,14 @@ func GetBookById(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Println("Error while parsing")
 	}
-	bookDetails, _ := models.GetBookById(ID)
-	data, _ := json.Marshal(bookDetails)
+	result, _, err := models.GetBookById(ID)
+	if err != nil {
+		res.WriteHeader(http.StatusNotFound)
+		res.Write([]byte(`{"status:false,"message":"Not Found"}`))
+		return
+
+	}
+	data, _ := json.Marshal(result)
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusOK)
 	res.Write(data)
@@ -52,12 +58,12 @@ func UpdateBook(res http.ResponseWriter, req *http.Request) {
 	UpdateBook := &models.Book{}
 	utils.ParseBody(req, UpdateBook)
 	vars := mux.Vars(req)
-	BookId := vars["BookId"]
+	BookId := vars["bookId"]
 	ID, err := strconv.ParseInt(BookId, 0, 0)
 	if err != nil {
 		fmt.Println("Wrror while parsing")
 	}
-	BookDetails, db := models.GetBookById(ID)
+	BookDetails, db, _ := models.GetBookById(ID)
 	if UpdateBook.Name != "" {
 		BookDetails.Name = UpdateBook.Name
 	}
@@ -76,7 +82,7 @@ func UpdateBook(res http.ResponseWriter, req *http.Request) {
 }
 func DeleteBook(res http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	BookId := vars["BookId"]
+	BookId := vars["bookId"]
 	ID, err := strconv.ParseInt(BookId, 0, 0)
 	if err != nil {
 		log.Panic(err)
