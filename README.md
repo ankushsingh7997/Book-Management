@@ -8,3 +8,4 @@ Goal - Develop basic scalable CRUD project
 6. Implement Caching using Redis
 7. Implement message queing. -Done
 8. Global Error Handeling
+9. Env loader
