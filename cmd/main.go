@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	"github.com/ankush/bookstore/logger"
 	"github.com/ankush/bookstore/pkg/routes"
 	"github.com/gorilla/mux"
 )
@@ -37,7 +39,9 @@ func main() {
 
 	// Start the server in a separate goroutine
 	go func() {
-		log.Println("Listening on port", port)
+		logg := logger.NewLogger("UserService", "production")
+		logg.Info(fmt.Sprintf("Listening on port: %s", port))
+
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Printf("Error while connecting to server: %v\n", err)
 		}
