@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/ankush/bookstore/env"
 	"github.com/ankush/bookstore/logger"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -11,8 +12,11 @@ var (
 )
 
 func Connect() {
+
 	logg := logger.NewLogger("UserService", "production")
-	d, err := gorm.Open("mysql", "root:12345678@tcp(0.0.0.0:3306)/rest?charset=utf8&parseTime=True&loc=Local")
+	dbUrl := env.Get("DB_URL", "")
+
+	d, err := gorm.Open("mysql", dbUrl)
 	if err != nil {
 		panic(err)
 	}
