@@ -7,7 +7,7 @@ Goal - Develop basic scalable CRUD project
 5. Implement ratelimit
 6. Implement Redis -Done
 7. Implement message queing. -Done
-8. Global Error Handeling
+8. Global Error Handeling. -Done
 9. Env loader - Done
 10. JWT - Done
 11. Authentication - Done
