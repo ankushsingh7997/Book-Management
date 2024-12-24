@@ -75,6 +75,7 @@ func (u *User) UpdateUser() error {
 	if err != nil {
 		return err
 	}
+	u.HashPassword()
 	if u.Password != "" && u.Password != existingUser.Password {
 		if err := u.HashPassword(); err != nil {
 			return err

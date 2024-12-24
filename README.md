@@ -11,4 +11,4 @@ Goal - Develop basic scalable CRUD project
 9. Env loader
 10. JWT - Done
 11. Authentication - Done
-12. Authorization - progress
+12. Authorization - Done

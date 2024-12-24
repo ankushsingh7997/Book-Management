@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -113,7 +114,7 @@ func UpdateUser(res http.ResponseWriter, req *http.Request) {
 		existingUser.Phone = updateData.Phone
 	}
 	if updateData.Password != "" {
-		existingUser.Password = updateData.Password // Note: In a real application, you should hash the password
+		existingUser.Password = updateData.Password
 	}
 
 	if err := existingUser.UpdateUser(); err != nil {
@@ -166,9 +167,11 @@ type LoginRequest struct {
 }
 
 func Login(res http.ResponseWriter, req *http.Request) {
+	fmt.Println(req.Body)
 
 	var loginReq LoginRequest
-	utils.ParseBody(req, loginReq)
+	utils.ParseBody(req, &loginReq)
+	fmt.Println(loginReq)
 
 	user, err := models.GetUserByEmail(loginReq.Email)
 	if err != nil {
