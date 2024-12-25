@@ -145,6 +145,7 @@ func ValidateToken(tokenString string) (*Claims, error) {
 	}
 
 	claims, ok := token.Claims.(*Claims)
+
 	if !ok || !token.Valid {
 		return nil, errors.New("invalid token")
 	}

@@ -8,6 +8,8 @@
 package middlewares
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -32,11 +34,21 @@ func Protect(next http.Handler) http.Handler {
 
 		// Validate the token
 		tokenString := headerParts[1]
-		_, err := models.ValidateToken(tokenString)
+		claim, err := models.ValidateToken(tokenString)
 		if err != nil {
 			res.WriteHeader(http.StatusUnauthorized)
 			return
 		}
+
+		user, err := models.GetUserByID(claim.UserId)
+		if err != nil {
+			res.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		ctx := context.WithValue(req.Context(), "user", user)
+		req = req.WithContext(ctx)
+		fmt.Println(req.Context().Value("user").(*models.User).Email)
 
 		// Call the next handler
 		next.ServeHTTP(res, req)
